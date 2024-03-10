@@ -8,7 +8,6 @@ import com.example.service.SaveArticle;
 import com.example.service.UpdateArticle;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -18,14 +17,17 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ArticleResource {
 
-    @Inject
-    SaveArticle saveArticle;
+    private final SaveArticle saveArticle;
 
-    @Inject
-    UpdateArticle updateArticle;
+    private final UpdateArticle updateArticle;
 
-    @Inject
-    DeleteArticle deleteArticle;
+    private final DeleteArticle deleteArticle;
+
+    public ArticleResource(SaveArticle saveArticle, UpdateArticle updateArticle, DeleteArticle deleteArticle) {
+        this.saveArticle = saveArticle;
+        this.updateArticle = updateArticle;
+        this.deleteArticle = deleteArticle;
+    }
 
     @GET
     public Multi<Article> list() {
